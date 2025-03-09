@@ -1,0 +1,20 @@
+
+.tariff-page-component {
+	display: grid;
+	grid-template-columns: 2fr 2px 1fr;
+	padding: 16px 16px;
+	height: 100%;
+}
+
+.tariff-page-component__divider {
+	width: 2px;
+	height: 100%;
+	background-color: var(--dark-color);
+}
+
+.tariff-page-component__list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	padding: 16px;
+}

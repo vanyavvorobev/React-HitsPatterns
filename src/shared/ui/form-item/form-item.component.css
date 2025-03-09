@@ -1,0 +1,38 @@
+
+.form-item {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.form-item__label {
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--primary-text-color);
+	padding: 0 16px;
+}
+
+.form-item__input {
+	font-size: 16px;
+	font-weight: 500;
+	background-color: var(--light-color);
+	color: var(--primary-text-color);
+	border: 2px solid var(--dark-color);
+	border-radius: 8px;
+	padding: 8px 16px;
+	transition: color 300ms, border-color 300ms;
+}
+
+.form-item__input:hover {
+	border-color: var(--hover-color);
+}
+.form-item__input:active {
+	border-color: var(--active-color);
+}
+
+.form-item__error {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--error-text-color);
+	padding: 0 16px;
+}
