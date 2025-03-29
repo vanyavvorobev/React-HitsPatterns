@@ -1,0 +1,29 @@
+
+.user-form-component {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.user-form-component__title {
+	font-size: 24px;
+	font-weight: 700;
+	padding: 0 16px;
+}
+.user-form-component__subtitle {
+	font-size: 20px;
+	font-weight: 600;
+	padding: 0 16px;
+}
+
+.user-form-component__content {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.user-form-component__caption {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--gray-text-color);
+}

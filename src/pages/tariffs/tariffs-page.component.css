@@ -6,15 +6,35 @@
 	height: 100%;
 }
 
-.tariff-page-component__divider {
-	width: 2px;
-	height: 100%;
-	background-color: var(--dark-color);
+.tariff-page-component__title {
+	font-size: 24px;
+	font-weight: 700;
+	padding: 0 16px;
+}
+
+.tariff-page-component__wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 16px;
 }
 
 .tariff-page-component__list {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 8px;
-	padding: 16px;
+	gap: 8px;	
+}
+@media(max-width: 1024px) {
+	.tariff-page-component {
+		grid-template-columns: auto 2px 1fr;
+	}
+	.tariff-page-component__list {
+		grid-template-columns: 1fr;
+	}
+}
+
+.tariff-page-component__divider {
+	width: 2px;
+	height: 100%;
+	background-color: var(--dark-color);
 }

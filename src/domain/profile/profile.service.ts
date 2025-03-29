@@ -12,12 +12,12 @@ type ProfileResponse = {
 	roles: string[]
 }
 
-export const useProfileService = () => {
+export const useProfileService = (userId?: string | null) => {
 
 	const { data: profileInfo, isLoading } = useQuery({
-		queryKey: ["my-profile"],
-		queryFn: () => queryInstances.account.get<ProfileResponse>(`api/user/${localStorage.getItem("user-id")}`),
-		enabled: localStorage.getItem("user-id") !== null
+		queryKey: ["get-profile", userId],
+		queryFn: () => queryInstances.account.get<ProfileResponse>(`api/user/${userId}`),
+		enabled: userId !== undefined && userId !== null
 	});
 
 	const editUserProfile = () => {

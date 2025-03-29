@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { queryInstances } from "../../shared/query/query.instance";
 import { addUnauthorizedCallback } from "../../shared/query/interceptors/unauthorized.interceptor";
-import { queryClient } from './../../shared/query/query.client';
 
 const storageKeys = {
 	accessToken: "access-token",
@@ -26,6 +25,11 @@ type LoginResponse = {
 	refreshToken: string,
 	userId: string
 }
+type RefreshResponse = {
+	accessToken: string,
+	refreshToken: string,
+	userId: string
+}
 
 type AuthorizationContextType = {
 	isAuth?: boolean,
@@ -34,7 +38,9 @@ type AuthorizationContextType = {
 	loginUser: (loginParams: LoginParams) => Promise<void>,
 	isLoginPending: boolean,
 	logoutUser: () => Promise<void>,
-	isLogoutPending: boolean
+	isLogoutPending: boolean,
+	refreshUser: () => Promise<void>,
+	isRefreshPending: boolean
 }
 
 const AuthorizationContext = React.createContext<AuthorizationContextType>({
@@ -44,7 +50,9 @@ const AuthorizationContext = React.createContext<AuthorizationContextType>({
 	loginUser: async () => {},
 	isLoginPending: false,
 	logoutUser: async () => {},
-	isLogoutPending: false
+	isLogoutPending: false,
+	refreshUser: async () => {},
+	isRefreshPending: false
 });
 
 export const useAuthorizationContext = () => {
@@ -67,13 +75,32 @@ export const AuthorizationProvider: React.FC<{children: React.ReactNode}> = ({
 	const { mutateAsync: logout, isPending: isLogoutPending } = useMutation({
 		mutationFn: () => queryInstances.account.post("auth/logout")
 	});
+	const { mutateAsync: refresh, isPending: isRefreshPending } = useMutation({
+		mutationFn: () => queryInstances.account.post<RefreshResponse>("auth/refresh", {
+			accessToken: localStorage.getItem(storageKeys.accessToken),
+			refreshToken: localStorage.getItem(storageKeys.refreshToken)
+		})
+	});
 
-	const onUnauthorized = () => {
-		queryClient.clear();
+	const clearAuthorization = () => {
 		setIsAuth(false);
+		queryClient.clear();
 		localStorage.removeItem(storageKeys.accessToken);
 		localStorage.removeItem(storageKeys.refreshToken);
 		localStorage.removeItem(storageKeys.userId);
+	}
+
+	const fillAuthorization = (tokens: LoginResponse) => {
+		setIsAuth(true);
+		localStorage.setItem(storageKeys.accessToken, tokens.accessToken);
+		localStorage.setItem(storageKeys.refreshToken, tokens.refreshToken);
+		localStorage.setItem(storageKeys.userId, tokens.userId);
+	}
+
+	const onUnauthorized = () => {
+		refresh().then((response) => {
+			fillAuthorization(response.data);
+		}).catch(clearAuthorization);
 	}
 
 	const registerUser = async (registerParams: RegisterParams) => {
@@ -87,19 +114,19 @@ export const AuthorizationProvider: React.FC<{children: React.ReactNode}> = ({
 
 	const loginUser = async (loginParams: LoginParams) => {
 		return login(loginParams).then((response) => {
-			setIsAuth(true);
-			localStorage.setItem(storageKeys.accessToken, response.data.accessToken);
-			localStorage.setItem(storageKeys.refreshToken, response.data.refreshToken);
-			localStorage.setItem(storageKeys.userId, response.data.userId);
+			fillAuthorization(response.data);
 		})
 	}
 
 	const logoutUser = async () => {
 		return logout().then(() => {
-			setIsAuth(false);
-			localStorage.removeItem(storageKeys.accessToken);
-			localStorage.removeItem(storageKeys.refreshToken);
-			localStorage.removeItem(storageKeys.userId);
+			clearAuthorization()
+		})
+	}
+
+	const refreshUser = async () => {
+		return refresh().then((response) => {
+			fillAuthorization(response.data);
 		})
 	}
 
@@ -110,8 +137,10 @@ export const AuthorizationProvider: React.FC<{children: React.ReactNode}> = ({
 		loginUser,
 		isLoginPending,
 		logoutUser,
-		isLogoutPending
-	}), [isAuth, registerUser, isRegisterPending, loginUser, isLoginPending, logoutUser, isLogoutPending]);
+		isLogoutPending,
+		refreshUser,
+		isRefreshPending,
+	}), [isAuth, registerUser, isRegisterPending, loginUser, isLoginPending, logoutUser, isLogoutPending, refreshUser, isRefreshPending]);
 
 	React.useEffect(() => {
 		addUnauthorizedCallback(onUnauthorized);

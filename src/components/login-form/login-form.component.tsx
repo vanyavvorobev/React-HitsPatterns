@@ -1,5 +1,5 @@
 import React from "react";
-import { FormItemComponent } from "../../shared/ui/form-item/form-item.component"
+import { FormInputComponent } from "../../shared/ui/form-input/form-input.component"
 import "./login-fomr.component.css";
 import { useForm } from "react-hook-form";
 import { SpinnerComponent } from "../../shared/ui/spinner/spinner.component";
@@ -45,9 +45,10 @@ export const LoginFormComponent: React.FC<LoginFormProps> = ({
 			});
 		}
 	}, [error, setError]);
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="login-form-component">
-			<FormItemComponent
+			<FormInputComponent
 				label="Email"
 				placeholder="example@gmail.com"
 				type="email"
@@ -60,7 +61,7 @@ export const LoginFormComponent: React.FC<LoginFormProps> = ({
 				})}
 				error={errors.email?.message}
 			/>
-			<FormItemComponent
+			<FormInputComponent
 				label="Пароль"
 				placeholder="uMpP`x1/d&Ux48b]qk_<"
 				type="password"
@@ -68,9 +69,8 @@ export const LoginFormComponent: React.FC<LoginFormProps> = ({
 					required: "Пароль обязателен",
 					minLength: {
 						value: 6,
-						message: "минимальная длина пароля: 6 символов",
+						message: "Минимальная длина пароля: 6 символов",
 					}
-
 				})}
 				error={errors.password?.message}
 			/>

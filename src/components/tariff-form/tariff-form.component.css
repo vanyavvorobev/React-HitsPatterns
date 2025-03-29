@@ -1,0 +1,8 @@
+
+.tariff-form-component {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	min-width: 300px;
+	max-width: 720px;
+}

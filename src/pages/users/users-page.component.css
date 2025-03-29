@@ -1,1 +1,44 @@
 
+.users-page-component {
+	display: grid;
+	grid-template-columns: 2fr 2px 1fr;	
+	padding: 16px 16px;
+	height: 100%;
+	transition: grid-template-columns 3000ms ease-in-out;
+}
+
+.users-page-component__wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 16px;
+}
+
+.users-page-component__title {
+	font-size: 24px;
+	font-weight: 700;
+	padding: 0 16px;
+}
+
+.users-page-component__list {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;	
+}
+
+@media(max-width: 1440px) {
+	.users-page-component__list {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media(max-width: 1024px) {
+	.users-page-component__list {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
+
+.users-page-component__divider {
+	width: 100%;
+	height: 100%;
+	background-color: var(--dark-color);
+}

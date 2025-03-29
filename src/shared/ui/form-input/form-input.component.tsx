@@ -1,14 +1,14 @@
 import React from "react";
-import "./form-item.component.css";
+import "./form-input.component.css";
 
-type FormItemProps = {
+type FormInputProps = {
 	label: string,
 	placeholder?: string,
 	type?: React.HTMLInputTypeAttribute,
 	error?: string
 }
 
-export const FormItemComponent: React.FC<FormItemProps> = (props) => {
+export const FormInputComponent: React.FC<FormInputProps> = (props) => {
 	const {
 		label,
 		placeholder = "type . . . .",

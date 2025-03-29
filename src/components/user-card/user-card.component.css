@@ -1,5 +1,5 @@
 
-.tariff-card-component {
+.user-card-component {
 	display: grid;
 	grid-template-columns: 1fr auto;
 	flex-direction: column;
@@ -10,19 +10,19 @@
 	border-radius: 16px;
 }
 
-.tariff-card-component__content {
+.user-card-component__content {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 }
 
-.tariff-card-component__title {
+.user-card-component__title {
 	font-size: 16px;
 	font-weight: 600;
 	color: var(--primary-text-color);
 }
 
-.tariff-card-component__caption {
+.user-card-component__caption {
 	font-size: 14px;
 	font-weight: 500;
 	color: var(--gray-text-color);

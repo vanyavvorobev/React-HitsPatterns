@@ -10,7 +10,7 @@ const staticData = {
 		{ title: "Счета", slug: "accounts" },
 		{ title: "Тарифы", slug: "tariff" },
 		{ title: "Кредиты", slug: "loans" },
-		{ title: "Пользователи", slug: "users" }
+		{ title: "Пользователи", slug: 'users' }
 	],
 	profile: { title: "Профиль", slug: "profile" }
 }
@@ -34,7 +34,7 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
 
 const AuthorizationComponent = () => {
 	const { isAuth } = useAuthorizationContext();
-	const { profileInfo, isLoading } = useProfileService();
+	const { profileInfo, isLoading } = useProfileService(localStorage.getItem("user-id"));
 
 	if(isLoading) {
 		return <SpinnerComponent/>
